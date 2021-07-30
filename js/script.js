@@ -59,11 +59,10 @@ let total = 0;
 activities.addEventListener('change', (e) => {
     if(e.target.checked){
         total+= parseInt(e.target.getAttribute('data-cost'));
-        document.getElementById('activities-cost').innerHTML = `Total: \$${total}`;
     } else {
         total-= parseInt(e.target.getAttribute('data-cost'));
-        document.getElementById('activities-cost').innerHTML = `Total: \$${total}`;
     }
+    document.getElementById('activities-cost').innerHTML = `Total: \$${total}`;
 });
 
 
@@ -95,3 +94,59 @@ payment.addEventListener('change', (e) => {
         bitcoin.hidden = false;
     }
 });
+
+
+/*
+Validation
+*/
+
+// Must be a valid email address
+function isValidEmail(email) {
+    return /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
+}
+
+// The "Card number" field must contain a 13 - 16 digit credit card number with no dashes or spaces.
+function isValidccNum(ccNum) {
+    return /^\d{13}$/.test(ccNum) | /^\d{16}$/.test(ccNum);
+}
+
+// The "Zip code" field must contain a 5 digit number.
+function isValidZip(zip) {
+    return /^\d{5}$/.test(zip);
+}
+
+// The "CVV" field must contain a 3 digit number.
+function isValidCvv(cvv) {
+    return /^\d{3}$/.test(cvv);
+}
+
+const email = document.getElementById('email');
+const ccNum = document.getElementById('cc-num');
+const zip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
+
+
+
+const showOrHideTip = function(show, element){
+    if(show){
+        element.style.display = 'inherit';
+    } else {
+        element.style.display = 'none';
+    }
+}
+
+function createListener(validator) {
+    return e => {
+      const text = e.target.value;
+      const valid = validator(text);
+      const showTip = text !== "" && !valid;
+      const tooltip = e.target.nextElementSibling;
+      showOrHideTip(showTip, tooltip);
+    };
+  }
+
+
+email.addEventListener("input", createListener(isValidEmail));
+ccNum.addEventListener("input", createListener(isValidccNum));
+zip.addEventListener("input", createListener(isValidZip));
+cvv.addEventListener("input", createListener(isValidCvv));
