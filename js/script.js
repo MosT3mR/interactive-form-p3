@@ -1,6 +1,6 @@
 /*
 Treehouse Techdegree:
-FSJS Project 2 - Data Pagination and Filtering
+FSJS Project 3 - Interactive Form
 Student : Othman Alomair
 */
 
@@ -115,7 +115,7 @@ function isValidEmail(email) {
 }
 
 function isValidccNum(ccNum) {
-    return /^\d{13}$/.test(ccNum) | /^\d{16}$/.test(ccNum);
+    return /^\d{13,16}$/.test(ccNum); //fixed this bug
 }
 
 function isValidZip(zip) {
@@ -147,8 +147,8 @@ function isValidPayment() {
 }
 
 
-form.addEventListener('submit', (e) => {
-    if(isValidName(customerName.value) && isValidEmail(email.value) && isValidPayment()){
+form.addEventListener('submit', (e) => { // fixed this bug
+    if(isValidName(customerName.value) && isValidEmail(email.value) && isValidRegister(total) && isValidPayment()){
         return true;
     } else{
         e.preventDefault();
